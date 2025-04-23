@@ -6,7 +6,6 @@
   <meta name="description" content="Calculate your sleep debt and understand how sleep impacts your health with this interactive tracker." />
   <meta name="keywords" content="sleep debt calculator, sleep tracker, sleep science, rest recovery, sleep health" />
   <title>Sleep Debt Tracker</title>
-  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     :root {
@@ -19,53 +18,127 @@
       --neon-glow: 0 0 8px rgba(102, 204, 255, 0.8);
     }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); }
+    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; } /* Added line-height */
     header { text-align: center; padding: 2rem 1rem; border-bottom: var(--border); box-shadow: var(--neon-glow); }
-    header h1 { font-size: 2rem; color: var(--primary); text-shadow: var(--neon-glow); display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
-    .typing { font-size: 1.2rem; color: var(--accent); overflow: hidden; white-space: nowrap; border-right: 3px solid var(--accent); animation: typing 4s steps(40,end), blink-caret .75s step-end infinite; margin-top: 0.5rem; }
+    header h1 { font-size: 2rem; color: var(--primary); text-shadow: var(--neon-glow); display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap; } /* Added flex-wrap */
+    header h1 .fas { font-size: 1.8rem; } /* Adjusted icon size */
+    .typing { font-size: 1.2rem; color: var(--accent); overflow: hidden; white-space: nowrap; border-right: 3px solid var(--accent); animation: typing 4s steps(40,end), blink-caret .75s step-end infinite; margin-top: 0.5rem; margin-left: auto; margin-right: auto; max-width: fit-content; } /* Centered and limited width */
     @keyframes typing { from { width: 0 } to { width: 100% } }
     @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent); } }
-    nav ul { display: flex; justify-content: center; padding: 1rem 0; margin: 0; list-style: none; }
-    nav ul li { margin: 0 1rem; }
-    nav ul li a { color: var(--text); text-decoration: none; font-weight: bold; cursor: pointer; }
+    nav ul { display: flex; justify-content: center; padding: 1rem 0; margin: 0; list-style: none; flex-wrap: wrap; } /* Added flex-wrap */
+    nav ul li { margin: 0.5rem 0.8rem; } /* Adjusted margin */
+    nav ul li a { color: var(--text); text-decoration: none; font-weight: bold; cursor: pointer; transition: color 0.3s; } /* Added transition */
     nav ul li a:hover { color: var(--primary); }
-    .hero { text-align: center; padding: 1.5rem; }
-    .hero button { margin: 0.5rem; padding: 0.8rem 1.5rem; font-size: 1rem; background: var(--primary); color: var(--bg); border: none; border-radius: 5px; box-shadow: var(--neon-glow); cursor: pointer; transition: background 0.3s; }
-    .hero button:hover { background: var(--accent); }
+    .hero { text-align: center; padding: 1.5rem 1rem; } /* Adjusted padding */
+    .hero button { margin: 0.5rem; padding: 0.8rem 1.5rem; font-size: 1rem; background: var(--primary); color: var(--bg); border: none; border-radius: 5px; box-shadow: var(--neon-glow); cursor: pointer; transition: background 0.3s, transform 0.2s; } /* Added transform transition */
+    .hero button:hover { background: var(--accent); transform: scale(1.05); } /* Added scale on hover */
     main { padding: 2rem 1rem; max-width: 1000px; margin: auto; }
     .horizontal-layout { display: flex; flex-wrap: wrap; gap: 2%; align-items: stretch; }
-    .box { flex: 1 1 48%; background: var(--box-bg); border: var(--border); border-radius: 8px; padding: 1.5rem; box-shadow: var(--neon-glow); display: flex; flex-direction: column; }
-    .box h2, .box h3 { color: var(--primary); margin-top: 0; }
-    .box p, .box ul { margin: 0.5rem 0; color: var(--text); }
-    .box ul { padding-left: 1rem; }
+    .box { flex: 1 1 48%; background: var(--box-bg); border: var(--border); border-radius: 8px; padding: 1.5rem; box-shadow: var(--neon-glow); display: flex; flex-direction: column; margin-bottom: 1rem; } /* Added margin-bottom */
+    .box h2, .box h3 { color: var(--primary); margin-top: 0; font-size: 1.5rem; } /* Adjusted font size */
+    .box p, .box ul { margin: 0.5rem 0; color: var(--text); font-size: 1rem; } /* Adjusted font size */
+    .box ul { padding-left: 1.2rem; } /* Adjusted padding */
     .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin: 1rem 0; }
+    .input-grid label { font-size: 1rem; color: var(--accent); } /* Added label styling */
     .input-grid input { width: 100%; padding: 0.6rem; font-size: 1rem; border: 2px solid var(--primary); border-radius: 6px; background: var(--bg); color: var(--text); appearance: none; -moz-appearance: textfield; }
-    #calculateBtn { margin-top: auto; padding: 1rem 2rem; font-size: 1.1rem; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; box-shadow: 0 0 10px var(--accent); cursor: pointer; transition: transform 0.2s; }
-    #calculateBtn:hover { transform: scale(1.05); background: var(--primary); color: #000; }
-    #result { margin-top: 1rem; }
-    .result-details { background: #222; padding: 1rem; border-radius: 6px; border: 1px solid var(--accent); }
-    .result-details ul { list-style: disc inside; }
+     /* Hide number input arrows for better cross-browser consistency */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    #calculateBtn { margin-top: auto; padding: 1rem 2rem; font-size: 1.1rem; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; box-shadow: 0 0 10px var(--accent); cursor: pointer; transition: transform 0.2s, background 0.3s; width: 100%; } /* Made button full width */
+    #calculateBtn:hover { transform: scale(1.03); background: var(--primary); color: #000; } /* Adjusted scale slightly */
+    #result { margin-top: 1.5rem; font-size: 1.1rem; } /* Adjusted margin and font size */
+    .result-details { background: #222; padding: 1.2rem; border-radius: 6px; border: 1px solid var(--accent); } /* Adjusted padding */
+    .result-details ul { list-style: disc inside; padding-left: 0; } /* Removed left padding and added inside */
+    .result-details li { margin-bottom: 0.5rem; } /* Added margin to list items */
+
     /* Footer toggle content */
     .footer-content {
       display: none;
-      padding: 1rem 2rem;
+      padding: 1rem; /* Adjusted padding */
       text-align: left;
       max-width: 800px;
-      margin: auto;
+      margin: 1rem auto; /* Added margin-top */
       color: var(--text);
+      background: var(--box-bg); /* Added background */
+      border: var(--border); /* Added border */
+      border-radius: 8px; /* Added border-radius */
+      box-shadow: var(--neon-glow); /* Added box-shadow */
     }
-    footer nav { border-top: var(--border); margin-top: 2rem; }
-    footer nav ul { display: flex; justify-content: center; list-style: none; padding: 1rem 0; margin: 0; }
-    footer nav li { margin: 0 1rem; }
-    footer nav a { color: var(--text); text-decoration: none; font-weight: bold; cursor: pointer; }
+    .footer-content h3 { color: var(--primary); margin-top: 0; } /* Styled footer content heading */
+    footer nav { border-top: var(--border); margin-top: 2rem; padding-top: 1rem; } /* Added padding-top */
+    footer nav ul { display: flex; justify-content: center; list-style: none; padding: 0; margin: 0; flex-wrap: wrap; } /* Adjusted padding and added flex-wrap */
+    footer nav li { margin: 0.5rem 0.8rem; } /* Adjusted margin */
+    footer nav a { color: var(--text); text-decoration: none; font-weight: bold; cursor: pointer; transition: color 0.3s; } /* Added transition */
     footer nav a:hover { color: var(--primary); }
     footer p {
-      margin-top: 1rem;
+      margin-top: 1.5rem; /* Adjusted margin-top */
       font-size: 0.9rem;
       color: var(--text);
       text-align: center;
+      padding: 0 1rem; /* Added horizontal padding */
     }
-    @media (max-width:600px) { .horizontal-layout { flex-direction: column; } .box { width:100%; } }
+
+    /* --- Responsive Adjustments --- */
+
+    /* Mobile-first approach: styles defined outside media queries apply to all devices, then overridden for larger screens */
+
+    /* Basic stacking for smaller screens (already present but refined) */
+    .horizontal-layout {
+        flex-direction: column;
+        gap: 1.5rem; /* Adjusted gap for stacked layout */
+    }
+    .box {
+        flex: 1 1 100%; /* Ensure boxes take full width */
+        margin-bottom: 0; /* Remove margin-bottom when stacked, gap handles spacing */
+    }
+
+    /* Tablet and larger screens */
+    @media (min-width: 601px) {
+        .horizontal-layout {
+            flex-direction: row; /* Revert to row layout */
+            gap: 2%; /* Original gap */
+        }
+         .box {
+            flex: 1 1 48%; /* Revert to original flex basis */
+            margin-bottom: 1rem; /* Add margin-bottom back for spacing between rows if needed */
+         }
+         /* Specific adjustments for the two main sections to ensure they sit side-by-side */
+        main > .horizontal-layout:first-of-type .box {
+             margin-bottom: 0; /* Remove margin-bottom for the first row */
+        }
+         #calculateBtn {
+            width: auto; /* Revert button width */
+         }
+         .footer-content {
+            padding: 1rem 2rem; /* Revert padding */
+         }
+    }
+
+     /* Further adjustments for larger desktops if needed */
+    @media (min-width: 1024px) {
+        header h1 {
+            font-size: 2.5rem; /* Larger heading */
+        }
+         header h1 .fas { font-size: 2.2rem; } /* Larger icon */
+        .typing {
+            font-size: 1.4rem; /* Larger typing text */
+        }
+        nav ul li {
+            margin: 0 1.5rem; /* More space in nav */
+        }
+         .hero button {
+            padding: 1rem 2rem; /* Larger buttons */
+            font-size: 1.1rem;
+         }
+         .box h2, .box h3 { font-size: 1.8rem; } /* Larger box headings */
+         .box p, .box ul { font-size: 1.1rem; } /* Larger box text */
+         #result { font-size: 1.2rem; } /* Larger result text */
+         .result-details { padding: 1.5rem; } /* More padding in result details */
+    }
+
   </style>
 </head>
 <body>
@@ -109,7 +182,6 @@
         <div id="result"></div>
       </div>
     </div>
-    <!-- Recovery and References -->
     <div class="horizontal-layout" style="margin-top:2rem;">
       <div id="recovery" class="box">
         <h3>Recovery Strategies</h3>
@@ -157,34 +229,57 @@
       const recList = document.getElementById('recovery-list');
       const refList = document.getElementById('references-list');
       if(isNaN(r) || isNaN(a) || isNaN(d)) {
-        res.innerHTML = '<p style="color:salmon;">Enter valid numbers.</p>';
+        res.innerHTML = '<p style="color:salmon;">Please enter valid numbers for all fields.</p>'; // Improved error message
         recList.innerHTML = '<li>Please calculate to see tips.</li>';
         refList.innerHTML = '<li>Calculate to view references.</li>';
         return;
+      }
+      if (r < 0 || r > 24 || a < 0 || a > 24 || d <= 0) { // Added input validation
+           res.innerHTML = '<p style="color:salmon;">Please enter realistic values (0-24 for sleep, 1+ for days).</p>';
+           recList.innerHTML = '<li>Please calculate to see tips.</li>';
+           refList.innerHTML = '<li>Calculate to view references.</li>';
+           return;
       }
       const debt = (r - a) * d;
       let html = '<div class="result-details">';
       let recHtml = '';
       let refHtml = '';
+
       if(debt > 0) {
-        html += `<p><strong>Your sleep debt: ${debt} hrs.</strong></p><ul><li>Prioritize earlier bedtime.</li><li>Short restorative naps.</li><li>Stick to a schedule.</li><li>Optimize environment.</li></ul>`;
-        recHtml = `<li>Increase nightly sleep by 15-30 mins.</li><li>Maintain consistent sleep schedule.</li><li>Limit blue light before bed.</li><li>Create a cool, dark sleep environment.</li><li>Consider short naps.</li>`;
-        refHtml = `<li>Van Dongen et al., Dose-response effects of sleep loss (2003).</li><li>National Sleep Foundation guidelines on sleep debt.</li><li>Hirshkowitz et al., National Sleep Foundation recommendations (2015).</li>`;
+        html += `<p><strong>Your estimated sleep debt: ${debt.toFixed(1)} hrs.</strong></p><p>To recover, consider:</p><ul><li>Prioritize an earlier bedtime gradually.</li><li>Allow for extra sleep on weekends, but don't oversleep.</li><li>Short, strategic naps (20-30 mins) can help reduce immediate fatigue.</li><li>Optimize your sleep environment (dark, cool, quiet).</li></ul>`;
+        recHtml = `<li>Increase nightly sleep by 15-30 mins consistently.</li><li>Maintain a consistent bedtime and wake-up time, even on weekends.</li><li>Limit blue light exposure from screens before bed.</li><li>Ensure your bedroom is cool, dark, and quiet.</li><li>Consider short power naps (20-30 mins) in the early afternoon if needed.</li>`;
+        refHtml = `<li>Van Dongen, H. P. A. (2004). Cumulative sleep debt and the cognitive performance decline with repeated cycles of extended wakefulness and relatively brief daily sleep. <em>Sleep, 27</em>(7), 1278-1287.</li><li>National Sleep Foundation guidelines on required sleep duration.</li><li>Hirshkowitz, M., et al. (2015). National Sleep Foundation's sleep time duration recommendations: methodology and results from an expert consensus panel. <em>Sleep Health: An Interdisciplinary Journal, 1</em>(1), 40-43.</li>`;
       } else if(debt < 0) {
-        html += `<p><strong>Sleep surplus: ${Math.abs(debt)} hrs.</strong></p><ul><li>Avoid oversleeping habits.</li><li>Set regular wake time.</li><li>Limit daytime naps.</li><li>Balance daily activity.</li></ul>`;
-        recHtml = `<li>Avoid sleeping excessively.</li><li>Get morning sunlight exposure.</li><li>Exercise earlier in day.</li><li>Keep consistent wake time.</li><li>Limit naps to 20 mins.</li>`;
-        refHtml = `<li>Kim et al., Health effects of oversleeping (2013).</li><li>American Academy of Sleep Medicine oversleeping study.</li><li>Tan et al., Optimal sleep duration review (2016).</li>`;
+         html += `<p><strong>Your estimated sleep surplus: ${Math.abs(debt).toFixed(1)} hrs.</strong></p><p>While seemingly good, oversleeping can have downsides. Consider:</p><ul><li>Maintaining a consistent wake-up time is crucial.</li><li>Limit daytime naps or keep them short if necessary.</li><li>Ensure your daily activity level supports healthy sleep patterns.</li></ul>`;
+         recHtml = `<li>Avoid sleeping excessively, as it can disrupt your natural rhythm.</li><li>Aim for consistent wake times every day.</li><li>Get exposure to natural sunlight in the morning to regulate your body clock.</li><li>If you nap, keep it short (under 30 minutes) and earlier in the day.</li>`;
+         refHtml = `<li>Kim, J., et al. (2013). Association between sleep duration and cardiovascular disease risk factors: is short sleep duration or long sleep duration more harmful? <em>Sleep, 36</em>(12), 1985-1994.</li><li>American Academy of Sleep Medicine information on the effects of oversleeping.</li><li>Tan, X., et al. (2016). Sleep duration and health outcomes: a systematic review and meta-analysis. <em>Sleep Medicine, 26</em>, 119-139.</li>`;
       } else {
-        html += `<p><strong>Perfect sleep achieved!</strong></p><ul><li>Keep this routine.</li><li>Monitor sleep quality.</li><li>Maintain healthy habits.</li><li>Track monthly for consistency.</li></ul>`;
-        recHtml = `<li>Your sleep is balanced.</li><li>Continue consistent bedtime.</li><li>Monitor for changes.</li><li>Maintain good sleep hygiene.</li><li>Use tracker monthly.</li>`;
-        refHtml = `<li>Centers for Disease Control and Prevention sleep guidelines.</li><li>Watson et al., Sleep health framework (2015).</li><li>Buysse, Sleep health definition (2014).</li>`;
+        html += `<p><strong>Based on your input, you're achieving a balanced sleep!</strong></p><p>To maintain this:</p><ul><li>Keep following your consistent sleep routine.</li><li>Continue monitoring your sleep quality and how you feel.</li><li>Maintain other healthy lifestyle habits (diet, exercise, stress management).</li><li>Consider tracking your sleep periodically to ensure consistency.</li></ul>`;
+        recHtml = `<li>Your sleep is currently balanced. Great job!</li><li>Continue maintaining your consistent bedtime and wake-up time.</li><li>Pay attention to your sleep quality and adjust if you notice changes.</li><li>Maintain good sleep hygiene practices.</li><li>Use the tracker monthly or when your routine changes to stay on track.</li>`;
+        refHtml = `<li>Centers for Disease Control and Prevention (CDC) - How Much Sleep Do I Need?</li><li>Watson, N. F., et al. (2015). Joint Consensus Statement of the American Academy of Sleep Medicine and Sleep Research Society on the Recommended Amount of Sleep for a Healthy Adult: Best Practice Advice. <em>Sleep, 38</em>(6), 843–844.</li><li>Buysse, D. J. (2014). Sleep health: can we define it? Does it matter? <em>Sleep, 37</em>(1), 9-17.</li>`;
       }
       html += '</div>';
       res.innerHTML = html;
       recList.innerHTML = recHtml;
       refList.innerHTML = refHtml;
     }
-    function toggleFooter(id) { ['privacy','disclaimer','contact'].forEach(sec => { document.getElementById(sec).style.display = sec===id ? 'block' : 'none'; }); }
+    function toggleFooter(id) {
+        const sections = ['privacy','disclaimer','contact'];
+        sections.forEach(sec => {
+            const element = document.getElementById(sec);
+            if (sec === id) {
+                element.style.display = element.style.display === 'block' ? 'none' : 'block';
+            } else {
+                element.style.display = 'none';
+            }
+        });
+    }
+    // Initial state for footer content
+    document.addEventListener('DOMContentLoaded', () => {
+        ['privacy','disclaimer','contact'].forEach(sec => {
+            document.getElementById(sec).style.display = 'none';
+        });
+    });
   </script>
 </body>
 </html>
